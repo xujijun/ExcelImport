@@ -14,11 +14,12 @@ public class excelProcess {
 		
 		byte[]   junk   =   new   byte[1024];   
 
-		int   bytesRead   =   0;   
+		//int   bytesRead   =   0;   
 
 		//读取文件流  ，必须先读4次 ，去除is的流的header信息去掉，否则会报错和乱码 
 		for(int x=0;x<4;x++){  
-		   bytesRead   =   is.readLine(junk, 0, junk.length);   
+		   //bytesRead   =   is.readLine(junk, 0, junk.length);
+		   is.readLine(junk, 0, junk.length);
 		}   
 
 		//生成Excel表
@@ -32,7 +33,7 @@ public class excelProcess {
 		double number=0;
 		String clazz=null;
 		String name=null;
-		String gender=null;
+		//String gender=null;
 		
 		for (int i = 1; i < rows; i++) {
 			HSSFRow row = sheet.getRow(i);
@@ -51,22 +52,24 @@ public class excelProcess {
 			}
 			
 			//读取第2个字段:座位号
-			if(row.getCell(3)!=null){
-				number = row.getCell(3).getNumericCellValue();
+			if(row.getCell(2)!=null){
+				number = row.getCell(2).getNumericCellValue();
 				//String string =row.getCell(1).getStringCellValue();
 			}
 			
 			//读取第3个字段:姓名
-			if(row.getCell(2)!=null){
+			if(row.getCell(3)!=null){
 				name = row.getCell(2).getStringCellValue().replace('*', ' ').trim();
 			}
 			
 			//读取第4个字段:性别
-			if(row.getCell(4)!=null){
+			/*if(row.getCell(4)!=null){
 				gender = row.getCell(4).getStringCellValue().trim();
-			}
+			}*/
 			
-			String s = String.format("INSERT INTO `schoolmate` (name, class, number, gender) VALUES ('%s', '92(%s)', %10.0f, '%s');", name, clazz, number, gender);
+			
+			//String s = String.format("INSERT INTO `schoolmate` (name, class, number, gender) VALUES ('%s', '95(%s)', %10.0f, '%s');", name, clazz, number, gender);
+			String s =String.format("INSERT INTO `schoolmate` (name, class, number) VALUES ('%s', '95(%s)', %10.0f);", name, clazz, number);
 			
 			//System.out.println(s);
 			result += s + "<br>";
